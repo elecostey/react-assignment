@@ -55,5 +55,12 @@ function toggleColors() {
 }
 
 function changeContent() {
-    $('#component').html($('#newText').val())
+    var inputValue = $('#newText').val();
+    var initialValue = 'Click on the text to change the color'
+    console.log(initialValue);
+    if (inputValue.length === 0) {
+      $('#component').html(initialValue);
+    } else {
+      $('#component').html(inputValue);
+    }
 }
