@@ -18,7 +18,6 @@ class App extends Component {
         <h2 id="component" onClick={toggleColors}>Click on the text to change the color</h2>
         <form>
           Modify text: <input id='newText' type="text" onChange={changeContent}/>
-
         </form>
       </div>
     );
@@ -33,7 +32,6 @@ function getRandomcolor() {
       url: "http://www.colr.org/json/color/random",
       dataType: 'json',
       complete: function (response) {
-
       		var object = JSON.parse(response.responseText);
           $('#component').css({color : '#'+object.colors[0].hex});
       },
