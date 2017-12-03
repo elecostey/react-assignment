@@ -9,7 +9,7 @@ class App extends Component {
 
         this.state = {
             color: 'white',
-            content: 'Click on the text to change the color'
+            content: 'Random color App'
         };
 
         this.changeColor = this.changeColor.bind(this);
