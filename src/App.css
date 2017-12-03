@@ -22,3 +22,24 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.title {
+  cursor: pointer;
+  user-select: none;
+}
+
+button {
+  padding: 15px 30px;
+  margin: 20px;
+  background-color: #222222;
+  font-size: 20px;
+  color: #61dafb;
+  border: none;
+  cursor: pointer;
+  border-radius: 100px;
+  outline: none;
+}
+
+.form {
+  margin: 20px;
+}

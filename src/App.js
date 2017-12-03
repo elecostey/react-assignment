@@ -1,66 +1,60 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import $ from 'jquery';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
 
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h2 id="component" onClick={toggleColors}>Click on the text to change the color</h2>
-        <form>
-          Modify text: <input id='newText' type="text" onChange={changeContent}/>
-        </form>
-      </div>
-    );
-  }
+        this.state = {
+            color: 'white',
+            content: 'Click on the text to change the color'
+        };
+
+        this.changeColor = this.changeColor.bind(this);
+        this.updateContent = this.updateContent.bind(this);
+    }
+
+    changeColor() {
+        const that = this;
+        $.ajax({
+            method: 'GET',
+            url: "http://www.colr.org/json/color/random",
+            dataType: 'json',
+            success: function (response) {
+                that.setColor(response.colors[0].hex);
+            },
+            error: function () {
+                console.log('an error occured, couldnt get random color.');
+            }
+        });
+    }
+
+    setColor(randomColor) {
+        const color = this.state.color === 'white' ? `#${randomColor}` : 'white';
+        this.setState({color: color });
+    }
+
+    updateContent(e) {
+        const updatedContent = e.target.value;
+        this.setState({content: updatedContent});
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <div className="App-header">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                    <h2 id="component" style={{color:this.state.color}}>{this.state.content}</h2>
+                </div>
+                <form className='form'>
+                    Modify text: <input id='newText' type="text" onChange={this.updateContent}/>
+                </form>
+                <button onClick={this.changeColor}>change color</button>
+            </div>
+        );
+    }
 }
 
 export default App;
-
-function getRandomcolor() {
-    $.ajax({
-      method: 'GET',
-      url: "http://www.colr.org/json/color/random",
-      dataType: 'json',
-      complete: function (response) {
-      		var object = JSON.parse(response.responseText);
-          $('#component').css({color : '#'+object.colors[0].hex});
-      },
-      error: function () {
-        console.log('an error occured, couldnt get random color.');
-      },
-    });
-}
-
-function colorBlack() {
-    $('#component').css({color : 'rgb(0, 0, 0)'});
-}
-
-function toggleColors() {
-    console.log($('#component').css('color'));
-    if ($('#component').css('color') === 'rgb(0, 0, 0)' ) {
-      getRandomcolor();
-    } else {
-      colorBlack();
-    }
-}
-
-function changeContent() {
-    var inputValue = $('#newText').val();
-    var initialValue = 'Click on the text to change the color'
-    console.log(initialValue);
-    if (inputValue.length === 0) {
-      $('#component').html(initialValue);
-    } else {
-      $('#component').html(inputValue);
-    }
-}
